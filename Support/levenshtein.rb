@@ -1,3 +1,4 @@
+# encoding: ASCII-8BIT
 #
 # Levenshtein distance algorithm implementation for Ruby, with UTF-8 support
 #
