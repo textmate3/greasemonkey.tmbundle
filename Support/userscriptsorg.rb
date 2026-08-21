@@ -60,7 +60,7 @@ class UserscriptsOrg
 	def self.authenticate
 		properties = {}
 		# Get e-mail from preferences or else from the address book "me" card
-		properties["login"] = Greasemonkey::Preferences[:login] || OSX::PropertyList.load(`defaults read AddressBookMe`)["ExistingEmailAddress"] rescue ""
+		properties["login"] = Greasemonkey::Preferences[:login] || Plist.load(`defaults read AddressBookMe`)["ExistingEmailAddress"] rescue ""
 		properties["password"] = Greasemonkey::Preferences[:password] || ""
 		
 		response_code = nil
@@ -83,7 +83,7 @@ class UserscriptsOrg
 	protected
 	def self.present_prompt(properties, retrying=false)
 		raw_response = `"$DIALOG" -cmp #{e_sh(properties.to_plist)} "#{LOGIN_NIB}"`
-		properties = OSX::PropertyList.load(raw_response)
+		properties = Plist.load(raw_response)
 
 		return false unless properties["returnButton"]=="Connect"
 
@@ -149,7 +149,7 @@ class UserscriptsOrg
 		
 		properties = {"scripts" => scripts, "updateSelected" => update_selected}
 		raw_response = `"$DIALOG" -cmp #{e_sh(properties.to_plist)} "#{RESOLVE_NIB}"`
-		result = OSX::PropertyList.load(raw_response)["result"]
+		result = Plist.load(raw_response)["result"]
 		
 		return false unless result
 		

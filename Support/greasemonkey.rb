@@ -3,8 +3,9 @@
 # Free to modify and redistribute non-commercially with due credit.
 
 
-SUPPORT_LIBS = %w{textmate osx/plist escape ui progress}
+SUPPORT_LIBS = %w{textmate escape ui progress}
 SUPPORT_LIBS.each {|lib| require "#{ENV['TM_SUPPORT_PATH']}/lib/#{lib}"}
+require "#{ENV['TM_SUPPORT_PATH']}/private/plist"
 
 # Set up objects for the GM environment and the current script.
 require "#{ENV['TM_BUNDLE_SUPPORT']}/support.rb"
@@ -81,7 +82,7 @@ class Greasemonkey
 		
 		# Flags: modal, centered, parameters
 		dialog = `"$DIALOG" -mcp #{e_sh parameters.to_plist} #{e_sh "#{ENV['TM_BUNDLE_SUPPORT']}/nib/OpenInstalledScript.nib"}`
-		pl = OSX::PropertyList.load(dialog)
+		pl = Plist.load(dialog)
 		
 		exit unless pl["returnButton"] == "Load"  # Bail if the user cancelled
 		

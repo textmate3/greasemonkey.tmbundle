@@ -134,7 +134,7 @@ class Greasemonkey
 		end
 		private
 		def self.load
-			OSX::PropertyList.load(File.new(FILE)) rescue {}
+			Plist.load(File.new(FILE)) rescue {}
 		end
 	end
 
